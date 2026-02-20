@@ -10,19 +10,23 @@ $trending = $stmt->fetch();
 $stmt = $pdo->query("SELECT * FROM dramas ORDER BY created_at DESC");
 $dramas = $stmt->fetchAll();
 
+// Fetch all genres
+$stmt = $pdo->query("SELECT * FROM genres LIMIT 6");
+$genres = $stmt->fetchAll();
+
 include 'includes/header.php';
 ?>
 
 <div class="min-h-screen">
     <main class="pt-0">
         <?php if ($trending): ?>
-        <section class="relative h-[85vh] w-full overflow-hidden">
+        <section class="relative min-h-[85vh] w-full overflow-hidden flex items-center">
             <div class="absolute inset-0">
                 <img class="w-full h-full object-cover" src="<?php echo e($trending['banner_url'] ?: $trending['poster_url']); ?>"/>
                 <div class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent"></div>
             </div>
-            <div class="relative h-full max-w-[1440px] mx-auto px-6 flex flex-col justify-center gap-6 pt-20">
+            <div class="relative w-full max-w-[1440px] mx-auto px-6 flex flex-col justify-center gap-6 pt-36 pb-28">
                 <div class="flex items-center gap-2 text-primary font-bold tracking-widest text-xs uppercase">
                     <span class="material-symbols-outlined text-sm">auto_awesome</span> Trending #1 di Indonesia
                 </div>
@@ -46,11 +50,13 @@ include 'includes/header.php';
         <?php endif; ?>
 
         <section class="max-w-[1440px] mx-auto px-6 -mt-12 relative z-10">
-            <div class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
-                <button class="px-6 py-2.5 bg-primary text-white rounded-full font-bold text-sm whitespace-nowrap shadow-lg shadow-primary/20">Semua Drama</button>
-                <button class="px-6 py-2.5 bg-slate-900/80 hover:bg-slate-800 text-slate-300 rounded-full font-bold text-sm whitespace-nowrap border border-white/5">Romansa Modern</button>
-                <button class="px-6 py-2.5 bg-slate-900/80 hover:bg-slate-800 text-slate-300 rounded-full font-bold text-sm whitespace-nowrap border border-white/5">Wuxia</button>
-                <button class="px-6 py-2.5 bg-slate-900/80 hover:bg-slate-800 text-slate-300 rounded-full font-bold text-sm whitespace-nowrap border border-white/5">Xianxia</button>
+            <div class="flex gap-6 overflow-x-auto no-scrollbar pb-4">
+                <a href="category.php" class="px-6 py-3 bg-primary text-white rounded-xl font-bold text-sm whitespace-nowrap shadow-xl shadow-primary/20 transition-all hover:scale-105">Semua Drama</a>
+                <?php foreach ($genres as $g): ?>
+                <a href="category.php?genre=<?php echo e($g['id']); ?>" class="px-6 py-3 bg-slate-900/90 hover:bg-slate-800 text-slate-100 rounded-xl font-bold text-sm whitespace-nowrap border border-white/10 backdrop-blur-md transition-all hover:scale-105">
+                    <?php echo e($g['name']); ?>
+                </a>
+                <?php endforeach; ?>
             </div>
         </section>
 

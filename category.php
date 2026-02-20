@@ -30,20 +30,22 @@ include 'includes/header.php';
                     <form action="category.php" method="GET">
                         <div class="mb-8">
                             <h4 class="text-sm font-bold text-slate-400 uppercase mb-4">Genre</h4>
-                            <div class="space-y-2">
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="cursor-pointer group">
+                                    <input type="radio" name="genre" value="" <?php echo !$genre_id ? 'checked' : ''; ?> onchange="this.form.submit()" class="hidden peer"/>
+                                    <span class="w-full text-center px-3 py-3 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-400 text-sm font-bold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-slate-700 transition-all inline-block">Semua</span>
+                                </label>
                                 <?php foreach ($genres as $g): ?>
-                                <label class="flex items-center gap-3 group cursor-pointer">
-                                    <input type="radio" name="genre" value="<?php echo e($g['id']); ?>" <?php echo $genre_id == $g['id'] ? 'checked' : ''; ?> class="rounded-full border-slate-700 bg-transparent text-primary focus:ring-primary"/>
-                                    <span class="text-sm font-medium <?php echo $genre_id == $g['id'] ? 'text-primary' : ''; ?>"><?php echo e($g['name']); ?></span>
+                                <label class="cursor-pointer group">
+                                    <input type="radio" name="genre" value="<?php echo e($g['id']); ?>" <?php echo $genre_id == $g['id'] ? 'checked' : ''; ?> onchange="this.form.submit()" class="hidden peer"/>
+                                    <span class="w-full text-center px-3 py-3 rounded-xl border border-slate-800 bg-slate-900/50 text-slate-400 text-sm font-bold peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary group-hover:border-slate-700 transition-all inline-block"><?php echo e($g['name']); ?></span>
                                 </label>
                                 <?php endforeach; ?>
-                                <label class="flex items-center gap-3 group cursor-pointer">
-                                    <input type="radio" name="genre" value="" <?php echo !$genre_id ? 'checked' : ''; ?> class="rounded-full border-slate-700 bg-transparent text-primary focus:ring-primary"/>
-                                    <span class="text-sm font-medium <?php echo !$genre_id ? 'text-primary' : ''; ?>">Semua Genre</span>
-                                </label>
                             </div>
                         </div>
-                        <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg font-bold">Terapkan Filter</button>
+                        <noscript>
+                            <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg font-bold">Terapkan Filter</button>
+                        </noscript>
                     </form>
                 </div>
             </aside>
